@@ -24,6 +24,7 @@ public class CSSViewWindow : Window.Window
     {
     }
 
+    /// <inheritdoc cref="IJSCreatable{T}.CreateAsync(IJSRuntime, IJSObjectReference, CreationOptions)"/>
     protected CSSViewWindow(IJSRuntime jSRuntime, IJSObjectReference jSReference, CreationOptions options) : base(jSRuntime, jSReference, options)
     {
     }

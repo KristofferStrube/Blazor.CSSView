@@ -15,8 +15,4 @@
     <ProjectReference Include="..\..\src\KristofferStrube.Blazor.CSSView\KristofferStrube.Blazor.CSSView.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
 </Project>

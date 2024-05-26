@@ -4,8 +4,18 @@ using Microsoft.JSInterop;
 
 namespace KristofferStrube.Blazor.CSSView;
 
+/// <summary>
+/// An element is an addressable node that can have attributes, a parent element, and child elements. It will be placed somewhere in the window if it is rendered.
+/// </summary>
+/// <remarks><see href="https://www.w3.org/TR/cssom-view-1/#extension-to-the-element-interface">See the API definition here</see>.</remarks>
 public class Element : BaseJSWrapper
 {
+    /// <summary>
+    /// Creates a <see cref="Element"/> from an existing <paramref name="elementReference"/>
+    /// </summary>
+    /// <param name="jSRuntime"><inheritdoc cref="IJSCreatable{T}.CreateAsync(IJSRuntime, IJSObjectReference)" path="/param[@name='jSRuntime']"/></param>
+    /// <param name="elementReference">An element reference to create this <see cref="Element"/> wrapper from.</param>
+    /// <returns></returns>
     public static async Task<Element> CreateAsync(IJSRuntime jSRuntime, ElementReference elementReference)
     {
         await using IJSObjectReference helper = await jSRuntime.GetHelperAsync();
@@ -13,6 +23,7 @@ public class Element : BaseJSWrapper
         return new(jSRuntime, jSInstance, new() { DisposesJSReference = true });
     }
 
+    /// <inheritdoc cref="IJSCreatable{T}.CreateAsync(IJSRuntime, IJSObjectReference, CreationOptions)"/>
     protected Element(IJSRuntime jSRuntime, IJSObjectReference jSReference, CreationOptions options) : base(jSRuntime, jSReference, options)
     {
     }
