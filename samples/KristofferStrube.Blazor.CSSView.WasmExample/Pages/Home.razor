@@ -1,0 +1,90 @@
+﻿@page "/"
+@using KristofferStrube.Blazor.DOM
+@using KristofferStrube.Blazor.Window
+@inject IWindowService WindowService
+@implements IAsyncDisposable
+
+<PageTitle>Blazor.CSSView</PageTitle>
+
+<div style="height:2000px;">
+    <h1>Blazor.CSSView</h1>
+
+    <div @ref=blackBoxReference style="height:200px; width:300px; padding: 5px; border:dashed 3px black;">
+        @if (blackBoxDomRect is not null)
+        {
+            <text>
+                x: @blackBoxDomRect.X<br />
+                y: @blackBoxDomRect.Y<br />
+                width: @blackBoxDomRect.Width<br />
+                height: @blackBoxDomRect.Height
+            </text>
+        }
+    </div>
+</div>
+@if (blackBoxDomRect is not null)
+{
+    <div style="
+position:fixed;
+border:solid 3px grey;
+border-radius:10px;
+text-align:center;
+top:@((blackBoxDomRect.Y+blackBoxDomRect.Height).AsString())px;
+left:@((blackBoxDomRect.X+(blackBoxDomRect.Width/2)-100).AsString())px;
+width:200px;">
+        This is positioned fixed to align with the middle of the bottom of the black rectangle.
+        <br />
+        And using the events from the <code>Window</code> we also update this when the window is resized or scrolled.
+    </div>
+}
+
+@code {
+    ElementReference blackBoxReference;
+    Element blackBox = default!;
+    DOMRect? blackBoxDomRect;
+
+    Window? window;
+    EventListener<Event>? updateCoordinatesEventListener;
+
+    [Inject]
+    public required IJSRuntime JSRuntime { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+
+        blackBox = await Element.CreateAsync(JSRuntime, blackBoxReference);
+        await UpdateCoodinates();
+
+        await SubscribeToWindowChangeEvents();
+
+        StateHasChanged();
+    }
+
+    private async Task SubscribeToWindowChangeEvents()
+    {
+        window = await WindowService.GetWindowAsync();
+        updateCoordinatesEventListener = await EventListener<Event>.CreateAsync(JSRuntime, async e =>
+        {
+            await UpdateCoodinates();
+            StateHasChanged();
+        });
+        await window.AddOnResizeEventListenerAsync(updateCoordinatesEventListener);
+        await window.AddOnScrollEventListenerAsync(updateCoordinatesEventListener);
+    }
+
+    private async Task UpdateCoodinates()
+    {
+        blackBoxDomRect = await blackBox.GetBoundingClientRectAsync();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (updateCoordinatesEventListener is not null && window is not null)
+        {
+            await window.RemoveOnResizeEventListenerAsync(updateCoordinatesEventListener);
+            await window.RemoveOnScrollEventListenerAsync(updateCoordinatesEventListener);
+            await updateCoordinatesEventListener.DisposeAsync();
+            await window.DisposeAsync();
+        }
+    }
+}
