@@ -15,6 +15,8 @@ The sample project can be demoed at https://kristofferstrube.github.io/Blazor.CS
 
 On each page, you can find the corresponding code for the example in the top right corner.
 
+On the [API Coverage Status](https://kristofferstrube.github.io/Blazor.CSSView/Status) page, you can see how much of the WebIDL specs this wrapper has covered.
+
 # Related articles
 This repository was built with inspiration and help from the following series of articles:
 
