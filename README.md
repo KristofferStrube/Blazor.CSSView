@@ -10,6 +10,11 @@ The API provides a way to get the position of element layout boxes, a way to get
 
 **This wrapper is still under development.**
 
+# Demo
+The sample project can be demoed at https://kristofferstrube.github.io/Blazor.CSSView/
+
+On each page, you can find the corresponding code for the example in the top right corner.
+
 # Related articles
 This repository was built with inspiration and help from the following series of articles:
 
