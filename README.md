@@ -6,7 +6,7 @@
 # Blazor.CSSView
 A Blazor wrapper for the [CSSOM View Module](https://www.w3.org/TR/cssom-view-1/) browser API.
 
-The API provides a way to get the position of element layout boxes, a way to get the dimensions of the window itself, and way to scroll an element or the window. This project implements a wrapper around the API for Blazor so that we can easily and safely access these positions, dimensions, and scroll actions.
+The API provides a way to get the position of element layout boxes, a way to get the dimensions of the window itself, and a way to scroll an element or the window. This project implements a wrapper around the API for Blazor so that we can easily and safely access these positions, dimensions, and scroll actions.
 
 **This wrapper is still under development.**
 
